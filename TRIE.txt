@@ -1,0 +1,193 @@
+import java.util.*;
+
+public class map {
+
+    static int count=0;
+    static class Node {
+        Node children[];
+
+        boolean eow;
+
+        public Node() {
+            count++;
+            children = new Node[26];
+            for (int i = 0; i < 26; i++) {
+                children[i] = null;
+            }
+            eow = false;
+        }
+    }
+        static Node root = new Node();
+        public static void insert(String s[]) // s=words
+        {
+            for(int i=0;i<s.length;i++)
+            {
+                Node curr=root;
+                for(int j=0;j<s[i].length();j++)
+                {
+                    int idx=s[i].charAt(j)-'a';
+                    if(curr.children[idx]==null)
+                    {
+                        curr.children[idx]=new Node();
+                    }
+                    if(j==s[i].length()-1)
+                    {
+                        curr.children[idx].eow=true;
+                    }
+                    curr=curr.children[idx];
+                }
+            }
+        }
+        public static boolean search(String key)
+        {
+            Node curr=root;
+            for(int i=0;i<key.length();i++)
+            {
+                int idx=key.charAt(i)-'a';
+                 if(curr.children[idx]==null) {
+                     return false;
+                 }
+                if(i==key.length()-1 && !curr.children[idx].eow)
+                {
+                    return false;
+                }
+                curr=curr.children[idx];
+            }
+            return true;
+        }
+
+        public static boolean check(String key)
+        {
+            if(key.length()==0)
+                return true;
+            for(int i=1;i<=key.length();i++)
+            {
+                String s1=key.substring(0,i);
+                String s2=key.substring(i);
+                if(search(s1) && check(s2))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static boolean pre(String s)
+        {
+            Node curr=root;
+            for(int i=0;i<s.length();i++)
+            {
+                int idx=s.charAt(i)-'a';
+                if(curr.children[idx]==null)
+                    return false;
+                curr=curr.children[idx];
+            }
+            return true;
+        }
+        public static String[] getSuffix(String s)
+        {
+            Scanner z=new Scanner(System.in);
+            String suf[]=new String[s.length()];
+            for(int i=0;i<s.length();i++)
+            {
+                suf[i]=s.substring(i);
+            }
+            return suf;
+        }
+
+    // ------ M  A  I  N ------
+    public static void main(String [] args)
+    {
+        public static void main(String [] args)
+    {
+        Scanner z=new Scanner(System.in);
+        String s[]={"a","pic","apple","ap","app","appl","apply"};
+        long start=System.nanoTime();
+        insert(s);
+        String pre,temp="";
+        for(int i=0;i<s.length;i++) {
+            pre = sub(s[i]);
+            if(temp.compareTo(pre)<1)
+                temp=pre;
+        }
+        System.out.println(temp);
+        long end=System.nanoTime();
+        long exec=(end-start)/1000000;
+        System.out.println("time req is "+exec+"ms");
+
+    }
+
+
+
+    }
+
+}
+
+
+static class node
+    {
+        // 10
+        node children[];
+        public node()
+        {
+            children=new node[10];
+            for(int i=0;i<10;i++)
+            {
+                children[i]=null;
+            }
+            
+        }
+    }
+    static node root=new node();
+    public static void insert(List<String>list)
+    {
+        node curr=root;
+        for(String s:list)
+        {
+            for(int i=0;i<s.length();i++)
+            {
+                int idx=s.charAt(i)-'a';
+                if(curr.children[idx]==null)
+                {
+                    curr.children[idx]=new node();
+                }
+                curr=curr.children[idx];
+            }
+        }
+    }
+
+    public static boolean pre(String s)
+    {
+        node curr=root;
+        bad=s;
+        for(int i=0;i<s.length();i++)
+        {   
+            int idx=s.charAt(i)-'a';
+            if(curr.children[idx]==null)
+                return false;
+            curr=curr.children[idx];
+        }
+        return true;
+    }
+
+    public static void noPrefix(List<String> words) {
+    // Write your code here
+        int f=0;
+        for(String s:words)
+        {
+            if(pre(s))
+            {
+                //System.out.println("BAD SET");
+                f=1;
+                break;
+            }
+        }
+        if(f==1)
+        {
+            System.out.println("BAD SET");
+            System.out.println(bad);
+        }
+        else
+            System.out.println("GOOD SET");
+
+    }
