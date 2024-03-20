@@ -1,0 +1,120 @@
+// MANY RECURSION FUNCTIONS 
+
+***********1. remove duplicates
+
+    public static boolean[] map=new boolean[26];
+    public static String s1="";
+    public static String check(String s,int i)
+    {
+
+        if(i==s.length())
+        {
+            return s1;
+        }
+        if(map[s.charAt(i)-'a']==false)
+        {
+            s1=s1+s.charAt(i);
+            map[s.charAt(i)-'a']=true;
+        }
+        return check(s,i+1);
+
+    }
+	
+***********2. IMPPPPPPPPPPPPP!!!!!!
+SUBSEQUENCE
+
+import java.util.Scanner;
+import java.util.*;
+
+public class solution {
+    public static boolean[] map=new boolean[26];
+    public static String s1="";
+    public static void getsub(String s,int i,String temp)
+    {
+        if(i==s.length())
+        {
+            System.out.println(temp);
+            return;
+        }
+        getsub(s,i+1,temp+s.charAt(i));
+        getsub(s,i+1,temp);
+    }
+
+
+    public static void main(String [] args)
+    {
+        Scanner z=new Scanner(System.in);
+        int n;
+        String s;
+        getsub("abc",0,"");
+
+
+    }
+    }
+
+***********3. Keypad mapping 
+    public static String s1="";
+    public static String [] table={".","abc","def","ghi","jkl","mno","pqrs","tu","vwx","yz"};
+    public static void combi(String s,int i,String combi)
+    {
+        if(i==s.length())
+        {
+            System.out.println(combi);
+            return;
+        }
+        String mapping=table[s.charAt(i)-'0'];
+        for(int j=0;j<mapping.length();j++)
+        {
+            combi(s,i+1,combi+mapping.charAt(j));
+        }
+
+    }
+
+********* 4 Call guests 
+public static int guest(int n)
+    {
+        if(n<=1)
+        {
+            return 1;
+        }
+        int single=guest(n-1);
+        int pair=(n-1)*guest(n-2);
+        return single+pair;
+    }
+
+************ 5 
+    public static void dis(ArrayList<Integer>set)
+    {
+        for(int i=0;i<set.size();i++)
+        {
+            System.out.print(set.get(i)+" ");
+        }
+        System.out.println();
+    }
+
+    public static void subset(int n,ArrayList<Integer>set)
+    {
+        if(n==0)
+        {
+            dis(set);
+            return;
+        }
+        //num will be added
+        set.add(n);
+        subset(n-1,set);
+        // num will not be added
+        set.remove(set.size()-1);
+        subset(n-1,set);
+    }
+
+
+    public static void main(String [] args)
+    {
+        Scanner z=new Scanner(System.in);
+        int n;
+        ArrayList<Integer>set=new ArrayList<>();
+
+        subset(3,set);
+    }
+    
+

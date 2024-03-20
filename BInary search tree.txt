@@ -1,0 +1,177 @@
+import java.awt.image.AreaAveragingScaleFilter;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+class node
+{
+    private node left,right;
+    private int data;
+    node(int d)
+    {
+        data=d;
+    }
+    public static node insert(node root,int d)
+    {
+        if(root==null)
+        {
+            root=new node(d);
+            return root;
+        }
+        if(root.data>d)
+        {
+            root.left=insert(root.left,d);
+        }
+        else
+        {
+            root.right=insert(root.right,d);
+        }
+        return root;
+    }
+    public static void inOrder(node root)
+    {
+        if(root==null)
+        {
+            return;
+        }
+        inOrder(root.left);
+        System.out.print(root.data+" ");
+        inOrder(root.right);
+    }
+    public static boolean search(node root,int d)
+    {
+        if(root==null)
+            return false;
+        if(root.data==d)
+        {
+            return true;
+        }
+        else if(root.data>d)
+        {
+            return search(root.left,d);
+        }
+        else
+        {
+            return search(root.right,d);
+        }
+    }
+    public static node delete(node root,int d)
+    {
+        if(root==null)
+        {
+            System.out.println("data aint there nigga");
+            return null;
+        }
+        if(root.data>d)
+        {
+            root.left=delete(root.left,d);
+        }
+        else if(root.data<d)
+        {
+            root.right=delete(root.right,d);
+        }
+        else       // data found
+        {
+            if(root.right==null && root.left==null) {
+                System.out.println("I was here");
+                return null;
+            }
+            else if(root.left==null)
+            {
+                return root.right;
+            }
+            else if(root.right==null)
+            {
+                return root.left;
+            }
+            // sadu case both left n right exist
+            else
+            {
+                node succ=getS(root.right);
+                root.data=succ.data;
+                root.right=delete(root.right,succ.data);
+            }
+        }
+        return root;
+    }
+    public static node getS(node root)    //successor
+    {
+        while(root.left!=null)
+        {
+            root=root.left;
+        }
+        return root;
+    }
+    public static void printRange(node root,int x,int y)
+    {
+        if(x==y)
+        {
+            System.out.println("nani?!");
+            return;
+        }
+        if(root==null)
+        {
+            return;
+        }
+        if(root.data>=x && root.data<=y)
+        {
+            printRange(root.left,x,y);
+            System.out.print(root.data+" ");
+            printRange(root.right,x,y);
+        }
+        else if(root.data < x)
+        {
+            printRange(root.right,x,y);
+        }
+        else
+        {
+            printRange(root.left,x,y);
+        }
+    }
+    public static void printAL(ArrayList<Integer>path)
+    {
+        for(int i=0;i<path.size();i++)
+        {
+            System.out.print(path.get(i)+" ");
+        }
+        System.out.println();
+    }
+    public static void subPath(node root, ArrayList<Integer>path)
+    {
+        if(root==null)
+        {
+            return;
+        }
+        path.add(root.data);
+        if(root.left==null && root.right==null)
+        {
+            printAL(path);
+        }
+        else {
+            subPath(root.left, path);
+            subPath(root.right, path);
+        }
+        path.remove(path.size()-1);
+    }
+}
+public class Main {
+    //  ----M   A   I   N----
+    public static void main(String[] args)
+    {
+        Scanner z=new Scanner(System.in);
+        ArrayList<Integer>path=new ArrayList<>();
+        int nodes[]={8,5,3,1,4,6,10,11,14};
+        node root=null;
+        for(int i=0;i<nodes.length;i++)
+        {
+            root=root.insert(root,nodes[i]);
+        }
+        root.inOrder(root);
+        System.out.println();
+        root.subPath(root, new ArrayList<>());
+
+
+
+    }
+}
